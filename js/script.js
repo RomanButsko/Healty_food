@@ -211,3 +211,43 @@ new Cards(
     430,
     ".menu .container"
 ).editHtm();
+
+
+
+
+const forms = document.querySelectorAll('form')
+
+const obj = {
+    approve: 'Данные загружены',
+    inprogress: "Идет загрузка",
+    faild: "Данные не прошли проверку"
+}
+forms.forEach (item => {
+    sendDate(item)
+});
+
+function sendDate(form) {
+    form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const request = new XMLHttpRequest();
+
+    const statusMessage = document.createElement('div');
+    statusMessage.classList.add('status');
+    statusMessage.textContent = obj.inprogress;
+    form.append(statusMessage)
+
+    request.open('POST', 'server.php');
+    request.setRequestHeader('Content-type', 'multipart/form-data');
+    const dataForm = new FormData(form);
+    request.send(dataForm);
+
+
+    request.addEventListener('load', () => {
+    if (request.status === 200) {
+        console.log(request.response)
+        statusMessage.textContent = obj.approve;
+
+    }
+    })
+})
+}
