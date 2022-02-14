@@ -145,20 +145,20 @@ function showModalByScroll() {
     //Карточки
 
     class Cards {
-        constructor (src, alt, subtitle, descr, cost, tota, parent, ...rest) {
+        constructor (src, alt, subtitle, descr, cost, total, parent, ...rest) {
             this.src = src;
             this.alt = alt;
             this.subtitle = subtitle;
             this.descr = descr;
             this.cost = cost;
-            this.tota = tota;
+            this.total = total;
             this.rest = rest;
             this.parent = document.querySelector(parent);
             this.transfer = 1500;
             this.multiply()
         }
         multiply() {
-            this.tota = this.tota * this.transfer
+            this.total = this.total * this.transfer
         }
         editHtm () {
             const element = document.createElement('div');
@@ -175,7 +175,7 @@ function showModalByScroll() {
             <div class="menu__item-divider"></div>
             <div class="menu__item-price">
                 <div class="menu__item-cost">${this.cost}:</div>
-                <div class="menu__item-total"><span>${this.tota}</span> грн/день </div>
+                <div class="menu__item-total"><span>${this.total}</span> грн/день </div>
             </div>;`
             this.parent.append(element)
         }
@@ -211,7 +211,3 @@ new Cards(
     430,
     ".menu .container"
 ).editHtm();
-
-
-
- 
