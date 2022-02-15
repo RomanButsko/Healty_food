@@ -229,17 +229,25 @@ forms.forEach (item => {
 function sendDate(form) {
     form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const request = new XMLHttpRequest();
 
     const statusMessage = document.createElement('div');
     statusMessage.classList.add('status');
     statusMessage.textContent = obj.inprogress;
     form.append(statusMessage)
 
+    const request = new XMLHttpRequest();
     request.open('POST', 'server.php');
-    request.setRequestHeader('Content-type', 'multipart/form-data');
-    const dataForm = new FormData(form);
-    request.send(dataForm);
+
+    request.setRequestHeader('Content-type', 'application/json');
+    const formData = new FormData(form);
+    
+    const object = {};
+    formData.forEach(function(value,key) {
+        object[key] = value
+    })
+
+    const json = JSON.stringify(object);
+    request.send(json);
 
 
     request.addEventListener('load', () => {
