@@ -75,60 +75,53 @@ function recive (selector, ended) {
 
     updateData();
 
-    function updateData () {
-        const gap = differentTime(ended);
+function updateData () {
+    const gap = differentTime(ended);
 
-        days.innerHTML = getZero(gap.days);
-        hours.innerHTML = getZero(gap.hours);
-        minutes.innerHTML = getZero(gap.minutes);
-        seconds.innerHTML = getZero(gap.seconds);
+    days.innerHTML = getZero(gap.days);
+    hours.innerHTML = getZero(gap.hours);
+    minutes.innerHTML = getZero(gap.minutes);
+    seconds.innerHTML = getZero(gap.seconds);
 
-        if(gap.total <= 0) {
-            clearInterval(timeInterval);
-        }
-        
-    }}
-    recive('.timer', holidays );
+    if(gap.total <= 0) {
+        clearInterval(timeInterval);
+    }
+    
+}};
+recive('.timer', holidays );
 
 
-    const closeModal = document.querySelector('[data-close]'),
-            openModal = document.querySelectorAll('[data-call]'),
-            modal = document.querySelector('.modal');
+const closeModal = document.querySelector('[data-close]'),
+        openModal = document.querySelectorAll('[data-call]'),
+        modal = document.querySelector('.modal');
 
 function open () {
     openModal.forEach(item => {
-        item.addEventListener('click', () => {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'
-    })
-    });   
-    }
+    item.addEventListener('click', () => {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'
+    })});
+    };
 function close () { 
     modal.style.display = 'none';
     document.body.style.overflow = ''
 };
-
 function openFloor() {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
     clearInterval(modalTimer);
-
-}
-
+};
 
 closeModal.addEventListener('click',close);
-
-    modal.addEventListener('click', (event) => {
+modal.addEventListener('click', (event) => {
         if(event.target === modal) {
         close();
-        }
-    });
+    }});
 
 document.addEventListener ('keydown', (event) => {
     if(event.code === "Escape") {
         close();
-    }
-})
+    }});
 close();
 open ();
 
@@ -144,42 +137,42 @@ function showModalByScroll() {
 
     //Карточки
 
-    class Cards {
-        constructor (src, alt, subtitle, descr, cost, total, parent, ...rest) {
-            this.src = src;
-            this.alt = alt;
-            this.subtitle = subtitle;
-            this.descr = descr;
-            this.cost = cost;
-            this.total = total;
-            this.rest = rest;
-            this.parent = document.querySelector(parent);
-            this.transfer = 1500;
-            this.multiply()
+class Cards {
+    constructor (src, alt, subtitle, descr, cost, total, parent, ...rest) {
+        this.src = src;
+        this.alt = alt;
+        this.subtitle = subtitle;
+        this.descr = descr;
+        this.cost = cost;
+        this.total = total;
+        this.rest = rest;
+        this.parent = document.querySelector(parent);
+        this.transfer = 1500;
+        this.multiply()
+    }
+    multiply() {
+        this.total = this.total * this.transfer
+    }
+    editHtm () {
+        const element = document.createElement('div');
+        if (this.rest.length === 0 ) {
+            this.rest = "menu__item"
+            element.classList.add(this.rest)
+        } else {
+            this.rest.forEach (numbert => element.classList.add(numbert))
         }
-        multiply() {
-            this.total = this.total * this.transfer
-        }
-        editHtm () {
-            const element = document.createElement('div');
-            if (this.rest.length === 0 ) {
-                this.rest = "menu__item"
-                element.classList.add(this.rest)
-            } else {
-                this.rest.forEach (numbert => element.classList.add(numbert))
-            }
-            element.innerHTML = `
-            <img src= ${this.src} alt=${this.alt}>
-            <h3 class="menu__item-subtitle">${this.subtitle}</h3>
-            <div class="menu__item-descr">${this.descr}</div>
-            <div class="menu__item-divider"></div>
-            <div class="menu__item-price">
-                <div class="menu__item-cost">${this.cost}:</div>
-                <div class="menu__item-total"><span>${this.total}</span> грн/день </div>
-            </div>;`
-            this.parent.append(element)
-        }
-    } 
+        element.innerHTML = `
+        <img src= ${this.src} alt=${this.alt}>
+        <h3 class="menu__item-subtitle">${this.subtitle}</h3>
+        <div class="menu__item-descr">${this.descr}</div>
+        <div class="menu__item-divider"></div>
+        <div class="menu__item-price">
+            <div class="menu__item-cost">${this.cost}:</div>
+            <div class="menu__item-total"><span>${this.total}</span> грн/день </div>
+        </div>;`
+        this.parent.append(element)
+    }
+} 
 
 
 new Cards( 
@@ -213,9 +206,10 @@ new Cards(
 ).editHtm();
 
 
+// Форма, проверить send json, выдает ошибку
 
 
-const forms = document.querySelectorAll('form')
+const forms = document.querySelector('form')
 
 const obj = {
     approve: 'Данные загружены',
@@ -227,8 +221,8 @@ forms.forEach (item => {
 });
 
 function sendDate(form) {
-    form.addEventListener('submit', (event) => {
-    event.preventDefault();
+    form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
     const statusMessage = document.createElement('div');
     statusMessage.classList.add('status');
@@ -243,19 +237,17 @@ function sendDate(form) {
     
     const object = {};
     formData.forEach(function(value,key) {
-        object[key] = value
-    })
+        object[key] = value;
+
 
     const json = JSON.stringify(object);
     request.send(json);
-
-
+})
     request.addEventListener('load', () => {
     if (request.status === 200) {
         console.log(request.response)
         statusMessage.textContent = obj.approve;
+    }})
+})};
 
-    }
-    })
-})
-}
+//
