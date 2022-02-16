@@ -229,25 +229,25 @@ function sendDate(form) {
     statusMessage.textContent = obj.inprogress;
     form.append(statusMessage)
 
-    const request = new XMLHttpRequest();
-    request.open('POST', 'server.php');
-
-    request.setRequestHeader('Content-type', 'application/json');
     const formData = new FormData(form);
-    
+
     const object = {};
     formData.forEach(function(value,key) {
         object[key] = value;
-
-
-    const json = JSON.stringify(object);
-    request.send(json);
 })
-    request.addEventListener('load', () => {
-    if (request.status === 200) {
-        console.log(request.response)
+
+    fetch('server.php', {
+        metod: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(object)
+    }).then (data => {
+        console.log(data)
         statusMessage.textContent = obj.approve;
-    }})
+    }).catch (() => {
+        statusMessage.textContent = obj.faild;
+    })
 })};
 
 //
